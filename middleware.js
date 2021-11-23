@@ -19,12 +19,12 @@ const getKeysFromFile = () => {
   });
 };
 
-const unauthorized = (res) => res.status(401);
+const unauthorized = (res) => res.status(401).end();
 
 module.exports = async function auth(req, res, next) {
   try {
     const apiKey = req.get("x-api-key");
-    if (apiKey === undefined) return unauthorized(res);
+    if (apiKey === undefined) unauthorized(res);
 
     const apiKeys = await getKeysFromFile();
     if (!apiKeys.includes(apiKey)) return unauthorized(res);
